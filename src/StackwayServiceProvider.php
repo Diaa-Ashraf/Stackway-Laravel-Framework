@@ -23,6 +23,19 @@ class StackwayServiceProvider extends ServiceProvider
         $this->app->singleton(\Stackway\Core\Support\CacheManager::class);
         $this->app->singleton(\Stackway\Core\Support\StorageManager::class);
         $this->app->singleton(\Stackway\Core\Support\ImageManager::class);
+
+        // Auto-bind Module Contracts to Repositories
+        $modulesPath = base_path(config('stackway.module.base_path', 'app/Modules'));
+        if (File::isDirectory($modulesPath)) {
+            foreach (File::directories($modulesPath) as $modulePath) {
+                $moduleName = basename($modulePath);
+                $contract = "App\\Modules\\{$moduleName}\\Contracts\\{$moduleName}RepositoryInterface";
+                $repo = "App\\Modules\\{$moduleName}\\Repositories\\{$moduleName}Repository";
+                if (interface_exists($contract) && class_exists($repo)) {
+                    $this->app->bind($contract, $repo);
+                }
+            }
+        }
     }
 
     /**
