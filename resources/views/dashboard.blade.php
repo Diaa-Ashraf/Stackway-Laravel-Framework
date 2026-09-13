@@ -1,0 +1,192 @@
+@extends('stackway::layouts.dashboard')
+
+@section('title', 'لوحة التحكم المركزية')
+
+@section('content')
+<div class="space-y-8">
+
+    {{-- Hero Welcome Banner --}}
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-900 via-indigo-900 to-slate-900 text-white p-6 md:p-8 shadow-xl border border-violet-800/40">
+        <div class="absolute -end-10 -bottom-10 w-72 h-72 bg-violet-600/25 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute start-1/3 -top-10 w-60 h-60 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full bg-violet-500/25 text-violet-200 border border-violet-400/30">
+                    <span>⚡ النظام المعياري التلقائي (Stackway Core)</span>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+                    أهلاً بك مجدداً، {{ auth()->user()->name ?? 'المدير' }} 👋
+                </h1>
+                <p class="text-slate-300 text-sm max-w-2xl leading-relaxed">
+                    لوحة التحكم المركزية مكتشفة لجميع الوحدات البرمجية النشطة تلقائياً دون الحاجة لكتابة كود يدوي.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
+                    <span class="block text-xl font-bold text-white">{{ $stats['modules_count'] ?? 0 }}</span>
+                    <span class="text-xs text-slate-300">وحدة نشطة</span>
+                </div>
+                <div class="px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
+                    <span class="block text-xl font-bold text-white">{{ $stats['total_records'] ?? 0 }}</span>
+                    <span class="text-xs text-slate-300">إجمالي السجلات</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Stats Cards Grid --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <x-sw-stat-card
+            title="الوحدات المثبتة"
+            :value="$stats['modules_count'] ?? 0"
+            icon="products"
+            color="primary"
+        />
+        <x-sw-stat-card
+            title="إجمالي البيانات المسجلة"
+            :value="$stats['total_records'] ?? 0"
+            icon="chart"
+            color="success"
+        />
+        <x-sw-stat-card
+            title="المستخدمين والمدراء"
+            :value="$stats['users_count'] ?? 1"
+            icon="users"
+            color="secondary"
+        />
+        <x-sw-stat-card
+            title="إصدار النظام"
+            :value="'Laravel ' . ($stats['laravel_ver'] ?? '12')"
+            icon="revenue"
+            color="info"
+        />
+    </div>
+
+    {{-- Installed Modules Grid --}}
+    <div class="space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                    <span>🧩 الوحدات البرمجية النشطة (Installed Modules)</span>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300">
+                        {{ count($modules) }} مكتشفة
+                    </span>
+                </h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">يتم رصد وإتاحة أي وحدة جديدة تُنشأ عبر <code class="font-mono text-[var(--sw-primary)] font-semibold">php artisan stackway:module</code> تلقائياً هنا</p>
+            </div>
+        </div>
+
+        @if(empty($modules))
+            <x-sw-card padding="p-8">
+                <x-sw-empty-state
+                    title="لم يتم العثور على وحدات في app/Modules"
+                    description="قم بإنشاء وحدتك الأولى فوراً باستخدام أوامر Stackway."
+                />
+            </x-sw-card>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                @foreach($modules as $module)
+                    <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition-all duration-200 p-5 flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-violet-50 dark:bg-violet-900/30 text-[var(--sw-primary)] flex items-center justify-center font-bold text-xl group-hover:scale-105 transition shadow-sm">
+                                    @if($module['slug'] === 'product') 📦
+                                    @elseif($module['slug'] === 'note') 📝
+                                    @elseif($module['slug'] === 'order') 🛍️
+                                    @elseif($module['slug'] === 'customer') 👥
+                                    @else ⚡
+                                    @endif
+                                </div>
+                                <span class="px-3 py-1 text-xs font-mono font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                    {{ $module['count'] }} سجل
+                                </span>
+                            </div>
+
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                                    {{ $module['label'] }}
+                                </h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                    {{ $module['description'] }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                            @if($module['has_index'])
+                                <x-sw-button href="{{ $module['index_url'] }}" variant="outline" size="sm" class="flex-1">
+                                    <span>عرض الوحدة</span>
+                                    <span class="text-xs">←</span>
+                                </x-sw-button>
+                            @endif
+
+                            @if($module['has_create'])
+                                <x-sw-button href="{{ $module['create_url'] }}" variant="primary" size="sm">
+                                    <span>+ جديد</span>
+                                </x-sw-button>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    {{-- Recent Activities & System Specifications --}}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {{-- Activity Stream (2 cols) --}}
+        <div class="lg:col-span-2">
+            <x-sw-card title="سجل العمليات والنشاط" subtitle="حركة الأحداث والعمليات عبر النظام">
+                <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                    @forelse($recentActivities as $act)
+                        <div class="py-3.5 flex items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-900/30 text-[var(--sw-primary)] flex items-center justify-center font-bold text-sm">
+                                    {{ $act['icon'] ?? '⚡' }}
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ $act['title'] }}</p>
+                                    <p class="text-xs text-slate-400">{{ $act['description'] }}</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono">{{ $act['time'] }}</span>
+                        </div>
+                    @empty
+                        <p class="py-6 text-center text-xs text-slate-400">لا يوجد نشاط مسجل حالياً.</p>
+                    @endforelse
+                </div>
+            </x-sw-card>
+        </div>
+
+        {{-- System Specs & Environment (1 col) --}}
+        <div class="space-y-6">
+            <x-sw-card title="بيئة التشغيل" subtitle="معلومات خادم الويب والمكتبات">
+                <div class="space-y-3 text-xs">
+                    <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-slate-500">حزمة التحكم:</span>
+                        <span class="font-bold text-[var(--sw-primary)]">Stackway Core v1.0</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-slate-500">إصدار PHP:</span>
+                        <span class="font-mono text-slate-700 dark:text-slate-300">{{ PHP_VERSION }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-slate-500">محرك Laravel:</span>
+                        <span class="font-mono text-slate-700 dark:text-slate-300">v{{ app()->version() }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-slate-500">وضع الثيم:</span>
+                        <span class="font-medium text-slate-700 dark:text-slate-300">Dark / Light Automatic</span>
+                    </div>
+                    <div class="flex justify-between py-2">
+                        <span class="text-slate-500">المعمارية:</span>
+                        <span class="font-medium text-emerald-600 dark:text-emerald-400">Modular SaaS</span>
+                    </div>
+                </div>
+            </x-sw-card>
+        </div>
+    </div>
+</div>
+@endsection

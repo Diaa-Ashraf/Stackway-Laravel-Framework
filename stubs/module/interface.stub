@@ -1,0 +1,10 @@
+<?php
+
+namespace {{namespace}}\Contracts;
+
+use Stackway\Core\Contracts\RepositoryInterface;
+
+interface {{moduleName}}RepositoryInterface extends RepositoryInterface
+{
+    // Add module-specific repository query contracts here
+}

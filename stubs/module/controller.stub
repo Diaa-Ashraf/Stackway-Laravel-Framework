@@ -1,0 +1,156 @@
+<?php
+
+namespace {{namespace}}\Controllers;
+
+use Stackway\Core\Base\BaseController;
+use Stackway\Core\Traits\DashboardResponseTrait;
+use {{namespace}}\Requests\Store{{moduleName}}Request;
+use {{namespace}}\Requests\Update{{moduleName}}Request;
+{{#if:service}}
+use {{namespace}}\Services\{{moduleName}}Service;
+{{/if:service}}
+{{#if:repo}}
+use {{namespace}}\Contracts\{{moduleName}}RepositoryInterface;
+{{/if:repo}}
+{{#if:!service}}{{#if:!repo}}
+use {{namespace}}\Models\{{moduleName}};
+{{/if:!repo}}{{/if:!service}}
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
+class {{moduleName}}Controller extends BaseController
+{
+    use DashboardResponseTrait;
+
+{{#if:service}}
+    public function __construct(
+        protected {{moduleName}}Service ${{moduleCamel}}Service
+    ) {}
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+    public function __construct(
+        protected {{moduleName}}RepositoryInterface ${{moduleCamel}}Repo
+    ) {}
+{{/if:repo}}{{/if:!service}}
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request): View
+    {
+{{#if:service}}
+        ${{modulePluralLower}} = $this->{{moduleCamel}}Service->getPaginatedList($request->all());
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        ${{modulePluralLower}} = $this->{{moduleCamel}}Repo->paginate(15);
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        ${{modulePluralLower}} = {{moduleName}}::select(['id', 'name', 'status', 'created_at'])
+            ->latest()
+            ->paginate(15);
+{{/if:!repo}}{{/if:!service}}
+
+        return view('{{moduleLower}}::index', compact('{{modulePluralLower}}'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): View
+    {
+        return view('{{moduleLower}}::create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Store{{moduleName}}Request $request): RedirectResponse
+    {
+{{#if:service}}
+        $this->{{moduleCamel}}Service->create($request->validated());
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $this->{{moduleCamel}}Repo->create($request->validated());
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        {{moduleName}}::create($request->validated());
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->flashCreated('{{moduleLower}}.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(int $id): View
+    {
+{{#if:service}}
+        ${{moduleCamel}} = $this->{{moduleCamel}}Service->getById($id);
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        ${{moduleCamel}} = $this->{{moduleCamel}}Repo->findById($id);
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        ${{moduleCamel}} = {{moduleName}}::findOrFail($id);
+{{/if:!repo}}{{/if:!service}}
+
+        return view('{{moduleLower}}::show', compact('{{moduleCamel}}'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(int $id): View
+    {
+{{#if:service}}
+        ${{moduleCamel}} = $this->{{moduleCamel}}Service->getById($id);
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        ${{moduleCamel}} = $this->{{moduleCamel}}Repo->findById($id);
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        ${{moduleCamel}} = {{moduleName}}::findOrFail($id);
+{{/if:!repo}}{{/if:!service}}
+
+        return view('{{moduleLower}}::edit', compact('{{moduleCamel}}'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Update{{moduleName}}Request $request, int $id): RedirectResponse
+    {
+{{#if:service}}
+        $this->{{moduleCamel}}Service->update($id, $request->validated());
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $this->{{moduleCamel}}Repo->update($id, $request->validated());
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        ${{moduleCamel}} = {{moduleName}}::findOrFail($id);
+        ${{moduleCamel}}->update($request->validated());
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->flashUpdated('{{moduleLower}}.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+{{#if:service}}
+        $this->{{moduleCamel}}Service->delete($id);
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $this->{{moduleCamel}}Repo->delete($id);
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        ${{moduleCamel}} = {{moduleName}}::findOrFail($id);
+        ${{moduleCamel}}->delete();
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->flashDeleted('{{moduleLower}}.index');
+    }
+}

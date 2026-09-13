@@ -1,0 +1,36 @@
+<?php
+
+namespace {{namespace}}\Repositories;
+
+use Stackway\Core\Base\BaseRepository;
+use {{namespace}}\Contracts\{{moduleName}}RepositoryInterface;
+use {{namespace}}\Models\{{moduleName}};
+
+class {{moduleName}}Repository extends BaseRepository implements {{moduleName}}RepositoryInterface
+{
+    /**
+     * Cache key prefix for this repository.
+     */
+    protected ?string $cachePrefix = '{{modulePluralLower}}';
+
+    /**
+     * Default columns to select.
+     */
+    protected array $selectColumns = [
+        'id',
+        'name',
+        'slug',
+        'description',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
+     * Get the model class name.
+     */
+    protected function model(): string
+    {
+        return {{moduleName}}::class;
+    }
+}

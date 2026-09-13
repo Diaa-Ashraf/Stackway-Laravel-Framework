@@ -1,0 +1,103 @@
+<?php
+
+namespace {{namespace}}\Services;
+
+use Stackway\Core\Base\BaseService;
+{{#if:repo}}
+use {{namespace}}\Contracts\{{moduleName}}RepositoryInterface;
+{{/if:repo}}
+{{#if:!repo}}
+use {{namespace}}\Models\{{moduleName}};
+{{/if:!repo}}
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class {{moduleName}}Service extends BaseService
+{
+{{#if:repo}}
+    public function __construct(
+        protected {{moduleName}}RepositoryInterface ${{moduleCamel}}Repo
+    ) {}
+{{/if:repo}}
+
+    /**
+     * Get paginated list of resources with optional filters.
+     */
+    public function getPaginatedList(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+{{#if:repo}}
+        return $this->{{moduleCamel}}Repo->paginate($perPage);
+{{/if:repo}}
+{{#if:!repo}}
+        return {{moduleName}}::select(['id', 'name', 'status', 'created_at'])
+            ->when(!empty($filters['search']), function ($query) use ($filters) {
+                $query->where('name', 'like', "%{$filters['search']}%");
+            })
+            ->when(!empty($filters['status']), function ($query) use ($filters) {
+                $query->where('status', $filters['status']);
+            })
+            ->latest()
+            ->paginate($perPage);
+{{/if:!repo}}
+    }
+
+    /**
+     * Get resource by ID.
+     */
+    public function getById(int $id)
+    {
+{{#if:repo}}
+        return $this->{{moduleCamel}}Repo->findById($id);
+{{/if:repo}}
+{{#if:!repo}}
+        return {{moduleName}}::findOrFail($id);
+{{/if:!repo}}
+    }
+
+    /**
+     * Create a new resource inside a transaction.
+     */
+    public function create(array $data)
+    {
+        return $this->transaction(function () use ($data) {
+{{#if:repo}}
+            return $this->{{moduleCamel}}Repo->create($data);
+{{/if:repo}}
+{{#if:!repo}}
+            return {{moduleName}}::create($data);
+{{/if:!repo}}
+        });
+    }
+
+    /**
+     * Update an existing resource inside a transaction.
+     */
+    public function update(int $id, array $data)
+    {
+        return $this->transaction(function () use ($id, $data) {
+{{#if:repo}}
+            return $this->{{moduleCamel}}Repo->update($id, $data);
+{{/if:repo}}
+{{#if:!repo}}
+            $model = {{moduleName}}::findOrFail($id);
+            $model->update($data);
+            return $model;
+{{/if:!repo}}
+        });
+    }
+
+    /**
+     * Delete a resource.
+     */
+    public function delete(int $id): bool
+    {
+        return $this->transaction(function () use ($id) {
+{{#if:repo}}
+            return $this->{{moduleCamel}}Repo->delete($id);
+{{/if:repo}}
+{{#if:!repo}}
+            $model = {{moduleName}}::findOrFail($id);
+            return $model->delete();
+{{/if:!repo}}
+        });
+    }
+}

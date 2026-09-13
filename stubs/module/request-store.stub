@@ -1,0 +1,42 @@
+<?php
+
+namespace {{namespace}}\Requests;
+
+use Stackway\Core\Base\BaseRequest;
+
+class Store{{moduleName}}Request extends BaseRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['nullable', 'string', 'in:active,inactive,pending'],
+        ];
+    }
+
+    /**
+     * Custom attribute names in Arabic.
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => 'الاسم',
+            'description' => 'الوصف',
+            'status' => 'الحالة',
+        ];
+    }
+}

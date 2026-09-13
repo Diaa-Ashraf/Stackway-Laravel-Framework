@@ -1,0 +1,76 @@
+@extends('stackway::layouts.dashboard')
+
+@section('title', 'تفاصيل {{moduleLabel}}')
+
+@section('header-actions')
+    <div class="flex items-center gap-2">
+        <x-sw-button href="{{ route('{{moduleLower}}.edit', ${{moduleCamel}}->id) }}" variant="primary" size="sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+            <span>تعديل</span>
+        </x-sw-button>
+        <x-sw-button href="{{ route('{{moduleLower}}.index') }}" variant="secondary" size="sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span>رجوع للقائمة</span>
+        </x-sw-button>
+    </div>
+@endsection
+
+@section('content')
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">{{ ${{moduleCamel}}->name }}</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">المعرف: #{{ ${{moduleCamel}}->id }}</p>
+        </div>
+        <div>
+            @if(${{moduleCamel}}->status === 'active')
+                <x-sw-badge type="success" :dot="true">نشط</x-sw-badge>
+            @elseif(${{moduleCamel}}->status === 'inactive')
+                <x-sw-badge type="danger" :dot="true">غير نشط</x-sw-badge>
+            @else
+                <x-sw-badge type="warning" :dot="true">{{ ${{moduleCamel}}->status ?? 'معلق' }}</x-sw-badge>
+            @endif
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 space-y-6">
+            <x-sw-card title="التفاصيل العامة">
+                <dl class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    <div class="py-3 grid grid-cols-3 gap-4">
+                        <dt class="font-medium text-slate-500 dark:text-slate-400">الاسم</dt>
+                        <dd class="col-span-2 text-slate-900 dark:text-slate-100 font-semibold">{{ ${{moduleCamel}}->name }}</dd>
+                    </div>
+                    <div class="py-3 grid grid-cols-3 gap-4">
+                        <dt class="font-medium text-slate-500 dark:text-slate-400">الاسم اللطيف (Slug)</dt>
+                        <dd class="col-span-2 text-slate-600 dark:text-slate-300 font-mono text-xs">{{ ${{moduleCamel}}->slug ?? '-' }}</dd>
+                    </div>
+                    <div class="py-3 grid grid-cols-3 gap-4">
+                        <dt class="font-medium text-slate-500 dark:text-slate-400">الوصف</dt>
+                        <dd class="col-span-2 text-slate-600 dark:text-slate-300 leading-relaxed">{{ ${{moduleCamel}}->description ?: 'لا يوجد وصف' }}</dd>
+                    </div>
+                </dl>
+            </x-sw-card>
+        </div>
+
+        <div class="space-y-6">
+            <x-sw-card title="بيانات النظام">
+                <dl class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+                    <div class="py-2.5 flex justify-between">
+                        <dt class="text-slate-500 dark:text-slate-400">تاريخ الإنشاء</dt>
+                        <dd class="font-mono text-slate-700 dark:text-slate-300">{{ ${{moduleCamel}}->created_at ? ${{moduleCamel}}->created_at->format('Y-m-d H:i') : '-' }}</dd>
+                    </div>
+                    <div class="py-2.5 flex justify-between">
+                        <dt class="text-slate-500 dark:text-slate-400">آخر تحديث</dt>
+                        <dd class="font-mono text-slate-700 dark:text-slate-300">{{ ${{moduleCamel}}->updated_at ? ${{moduleCamel}}->updated_at->format('Y-m-d H:i') : '-' }}</dd>
+                    </div>
+                </dl>
+            </x-sw-card>
+        </div>
+    </div>
+</div>
+@endsection

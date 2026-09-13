@@ -1,0 +1,66 @@
+<?php
+
+namespace {{namespace}}\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+{{#if:media}}
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+{{/if:media}}
+{{#if:translation}}
+use Spatie\Translatable\HasTranslations;
+{{/if:translation}}
+use Stackway\Core\Traits\ActivityLogTrait;
+
+class {{moduleName}} extends Model{{#if:media}} implements HasMedia{{/if:media}}
+{
+    use HasFactory;
+    use SoftDeletes;
+    use ActivityLogTrait;
+{{#if:media}}
+    use InteractsWithMedia;
+{{/if:media}}
+{{#if:translation}}
+    use HasTranslations;
+{{/if:translation}}
+
+    /**
+     * The table associated with the model.
+     */
+    protected $table = '{{modulePluralLower}}';
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'status',
+    ];
+
+{{#if:translation}}
+    /**
+     * Translatable attributes.
+     */
+    public array $translatable = [
+        'name',
+        'description',
+    ];
+{{/if:translation}}
+
+    /**
+     * The attributes that should be cast.
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => 'string',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
+    }
+}

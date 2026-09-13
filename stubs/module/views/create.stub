@@ -1,0 +1,73 @@
+@extends('stackway::layouts.dashboard')
+
+@section('title', 'إضافة {{moduleLabel}} جديد')
+
+@section('header-actions')
+    <x-sw-button href="{{ route('{{moduleLower}}.index') }}" variant="secondary" size="sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>رجوع للقائمة</span>
+    </x-sw-button>
+@endsection
+
+@section('content')
+<div class="max-w-4xl mx-auto space-y-6">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">إضافة {{moduleLabel}} جديد</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">قم بتعبئة الحقول التالية لإنشاء {{moduleLabel}} جديد في النظام</p>
+    </div>
+
+    <form action="{{ route('{{moduleLower}}.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <x-sw-card title="البيانات الأساسية" subtitle="المعلومات الرئيسية للـ {{moduleLabel}}">
+            <div class="space-y-4">
+                <x-sw-input
+                    name="name"
+                    label="الاسم"
+                    placeholder="أدخل الاسم..."
+                    :required="true"
+                />
+
+                <x-sw-select
+                    name="status"
+                    label="الحالة"
+                    :options="['active' => 'نشط', 'inactive' => 'غير نشط', 'pending' => 'معلق']"
+                    selected="active"
+                    :required="true"
+                />
+
+                <x-sw-textarea
+                    name="description"
+                    label="الوصف"
+                    placeholder="أدخل وصف تفصيلي..."
+                    :rows="4"
+                />
+
+{{#if:media}}
+                <x-sw-file-upload
+                    name="image"
+                    label="الصورة"
+                    hint="PNG, JPG, WebP بحد أقصى 5MB"
+                />
+{{/if:media}}
+            </div>
+
+            <x-slot:footer>
+                <div class="flex items-center justify-end gap-3">
+                    <x-sw-button href="{{ route('{{moduleLower}}.index') }}" variant="secondary">
+                        إلغاء
+                    </x-sw-button>
+                    <x-sw-button type="submit" variant="primary">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>حفظ البيانات</span>
+                    </x-sw-button>
+                </div>
+            </x-slot:footer>
+        </x-sw-card>
+    </form>
+</div>
+@endsection

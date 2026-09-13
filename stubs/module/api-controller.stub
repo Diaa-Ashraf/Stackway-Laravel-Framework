@@ -1,0 +1,130 @@
+<?php
+
+namespace {{namespace}}\Controllers\Api;
+
+use Stackway\Core\Base\BaseController;
+use Stackway\Core\Traits\ApiResponseTrait;
+use {{namespace}}\Requests\Store{{moduleName}}Request;
+use {{namespace}}\Requests\Update{{moduleName}}Request;
+use {{namespace}}\Resources\{{moduleName}}Resource;
+{{#if:service}}
+use {{namespace}}\Services\{{moduleName}}Service;
+{{/if:service}}
+{{#if:repo}}
+use {{namespace}}\Contracts\{{moduleName}}RepositoryInterface;
+{{/if:repo}}
+{{#if:!service}}{{#if:!repo}}
+use {{namespace}}\Models\{{moduleName}};
+{{/if:!repo}}{{/if:!service}}
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+
+class {{moduleName}}Controller extends BaseController
+{
+    use ApiResponseTrait;
+
+{{#if:service}}
+    public function __construct(
+        protected {{moduleName}}Service ${{moduleCamel}}Service
+    ) {}
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+    public function __construct(
+        protected {{moduleName}}RepositoryInterface ${{moduleCamel}}Repo
+    ) {}
+{{/if:repo}}{{/if:!service}}
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request): JsonResponse
+    {
+{{#if:service}}
+        ${{modulePluralLower}} = $this->{{moduleCamel}}Service->getPaginatedList($request->all());
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        ${{modulePluralLower}} = $this->{{moduleCamel}}Repo->paginate($request->integer('per_page', 15));
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        ${{modulePluralLower}} = {{moduleName}}::select(['id', 'name', 'status', 'created_at'])
+            ->latest()
+            ->paginate($request->integer('per_page', 15));
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->paginated({{moduleName}}Resource::collection(${{modulePluralLower}}));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Store{{moduleName}}Request $request): JsonResponse
+    {
+{{#if:service}}
+        $item = $this->{{moduleCamel}}Service->create($request->validated());
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $item = $this->{{moduleCamel}}Repo->create($request->validated());
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        $item = {{moduleName}}::create($request->validated());
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->created(new {{moduleName}}Resource($item), 'تم إنشاء العنصر بنجاح');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(int $id): JsonResponse
+    {
+{{#if:service}}
+        $item = $this->{{moduleCamel}}Service->getById($id);
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $item = $this->{{moduleCamel}}Repo->findById($id);
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        $item = {{moduleName}}::findOrFail($id);
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->success(new {{moduleName}}Resource($item));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Update{{moduleName}}Request $request, int $id): JsonResponse
+    {
+{{#if:service}}
+        $item = $this->{{moduleCamel}}Service->update($id, $request->validated());
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $item = $this->{{moduleCamel}}Repo->update($id, $request->validated());
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        $item = {{moduleName}}::findOrFail($id);
+        $item->update($request->validated());
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->success(new {{moduleName}}Resource($item), 'تم تحديث العنصر بنجاح');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id): JsonResponse
+    {
+{{#if:service}}
+        $this->{{moduleCamel}}Service->delete($id);
+{{/if:service}}
+{{#if:!service}}{{#if:repo}}
+        $this->{{moduleCamel}}Repo->delete($id);
+{{/if:repo}}{{/if:!service}}
+{{#if:!service}}{{#if:!repo}}
+        $item = {{moduleName}}::findOrFail($id);
+        $item->delete();
+{{/if:!repo}}{{/if:!service}}
+
+        return $this->success(null, 'تم حذف العنصر بنجاح');
+    }
+}

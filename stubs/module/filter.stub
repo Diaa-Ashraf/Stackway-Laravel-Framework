@@ -1,0 +1,32 @@
+<?php
+
+namespace {{namespace}}\Filters;
+
+use Illuminate\Database\Eloquent\Builder;
+
+class {{moduleName}}Filter
+{
+    /**
+     * Apply filters to the query builder.
+     */
+    public function apply(Builder $query, array $filters = []): Builder
+    {
+        if (!empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%");
+        }
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        if (!empty($filters['from_date'])) {
+            $query->whereDate('created_at', '>=', $filters['from_date']);
+        }
+
+        if (!empty($filters['to_date'])) {
+            $query->whereDate('created_at', '<=', $filters['to_date']);
+        }
+
+        return $query;
+    }
+}
