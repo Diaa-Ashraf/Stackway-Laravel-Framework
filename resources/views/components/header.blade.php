@@ -82,25 +82,29 @@
                     <p class="text-xs" style="color: var(--sw-text-muted);">{{ Auth::user()->email ?? '' }}</p>
                 </div>
                 <div class="py-1">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2 text-sm transition"
-                       style="color: var(--sw-text-secondary);"
-                       onmouseover="this.style.background='var(--sw-surface-hover)'"
-                       onmouseout="this.style.background='transparent'">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        الملف الشخصي
-                    </a>
+                    @if(Route::has('profile.edit'))
+                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2 text-sm transition"
+                           style="color: var(--sw-text-secondary);"
+                           onmouseover="this.style.background='var(--sw-surface-hover)'"
+                           onmouseout="this.style.background='transparent'">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            الملف الشخصي
+                        </a>
+                    @endif
                 </div>
                 <div class="border-t" style="border-color: var(--sw-border);">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="flex items-center gap-2 w-full px-4 py-2 text-sm transition"
-                                style="color: var(--sw-danger);"
-                                onmouseover="this.style.background='var(--sw-surface-hover)'"
-                                onmouseout="this.style.background='transparent'">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                            تسجيل الخروج
-                        </button>
-                    </form>
+                    @if(Route::has('logout'))
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="flex items-center gap-2 w-full px-4 py-2 text-sm transition"
+                                    style="color: var(--sw-danger);"
+                                    onmouseover="this.style.background='var(--sw-surface-hover)'"
+                                    onmouseout="this.style.background='transparent'">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                تسجيل الخروج
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
