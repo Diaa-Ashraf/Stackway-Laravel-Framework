@@ -68,13 +68,13 @@
     <div class="space-y-4">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <h2 class="text-lg font-bold flex items-center gap-2" style="color: var(--sw-text-primary);">
                     <span>🧩 الوحدات البرمجية النشطة (Installed Modules)</span>
-                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300">
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800/40">
                         {{ count($modules) }} مكتشفة
                     </span>
                 </h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">يتم رصد وإتاحة أي وحدة جديدة تُنشأ عبر <code class="font-mono text-[var(--sw-primary)] font-semibold">php artisan stackway:module</code> تلقائياً هنا</p>
+                <p class="text-xs mt-0.5" style="color: var(--sw-text-secondary);">يتم رصد وإتاحة أي وحدة جديدة تُنشأ عبر <code class="font-mono text-[var(--sw-primary)] font-semibold">php artisan stackway:module</code> تلقائياً هنا</p>
             </div>
         </div>
 

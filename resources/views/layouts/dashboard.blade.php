@@ -14,6 +14,15 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     {{-- Styles --}}
+    <style>
+        [x-cloak] { display: none !important; }
+        @media (min-width: 1024px) { .sw-mobile-toggle { display: none !important; } }
+        {!! file_get_contents(__DIR__ . '/../../css/stackway-theme.css') !!}
+    </style>
+
+    {{-- Alpine.js Bundle (Standalone & Auto-initializing) --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('styles')

@@ -174,10 +174,10 @@
     </div>
 </aside>
 
-{{-- Mobile Toggle Button (shown in header on mobile) --}}
+{{-- Mobile Toggle Button (shown in header on mobile only) --}}
 <button @click="mobileOpen = !mobileOpen"
-        class="fixed top-4 left-4 z-50 lg:hidden sw-btn sw-btn-ghost p-2 rounded-lg"
-        style="background: var(--sw-surface-card); box-shadow: var(--sw-shadow-md);" type="button">
+        class="sw-mobile-toggle fixed top-4 start-4 z-50 lg:hidden sw-btn sw-btn-ghost p-2 rounded-lg"
+        style="background: var(--sw-surface-card); box-shadow: var(--sw-shadow-md); border: 1px solid var(--sw-border);" type="button">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path x-show="!mobileOpen" d="M4 6h16M4 12h16M4 18h16"/>
         <path x-show="mobileOpen" d="M6 18L18 6M6 6l12 12"/>
