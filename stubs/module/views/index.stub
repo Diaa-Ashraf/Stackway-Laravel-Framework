@@ -16,8 +16,8 @@
     {{-- Header & Stats --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">قائمة {{moduleLabelPlural}}</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">عرض وإدارة جميع {{moduleLabelPlural}} المسجلة في النظام</p>
+            <h1 class="text-2xl font-bold" style="color: var(--sw-text-primary);">قائمة {{moduleLabelPlural}}</h1>
+            <p class="text-sm mt-1" style="color: var(--sw-text-muted);">عرض وإدارة جميع {{moduleLabelPlural}} المسجلة في النظام</p>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
                         placeholder="البحث في {{moduleLabelPlural}}..."
                         class="sw-input w-full px-4 py-2 text-sm rounded-xl ps-10"
                     />
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none text-slate-400">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none" style="color: var(--sw-text-muted);">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
@@ -64,8 +64,8 @@
             </div>
         @else
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-start">
-                    <thead class="bg-slate-50/75 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase border-b border-slate-100 dark:border-slate-800">
+                <table class="sw-table">
+                    <thead>
                         <tr>
                             <th class="px-6 py-3.5 text-start font-semibold">#</th>
                             <th class="px-6 py-3.5 text-start font-semibold">الاسم</th>
@@ -74,12 +74,12 @@
                             <th class="px-6 py-3.5 text-end font-semibold">الإجراءات</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                    <tbody>
                         @foreach(${{modulePluralLower}} as $item)
-                            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/25 transition-colors">
-                                <td class="px-6 py-4 font-mono text-xs text-slate-400">#{{ $item->id }}</td>
-                                <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
-                                    <a href="{{ route('{{moduleLower}}.show', $item->id) }}" class="hover:text-[var(--sw-primary)] transition-colors">
+                            <tr>
+                                <td class="px-6 py-4 font-mono text-xs" style="color: var(--sw-text-muted);">#{{ $item->id }}</td>
+                                <td class="px-6 py-4 font-medium" style="color: var(--sw-text-primary);">
+                                    <a href="{{ route('{{moduleLower}}.show', $item->id) }}" class="hover:underline" style="color: var(--sw-text-primary);">
                                         {{ $item->name }}
                                     </a>
                                 </td>
@@ -92,29 +92,22 @@
                                         <x-sw-badge type="warning" :dot="true">{{ $item->status ?? 'معلق' }}</x-sw-badge>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 text-xs text-slate-500 font-mono">
+                                <td class="px-6 py-4 text-xs font-mono" style="color: var(--sw-text-muted);">
                                     {{ $item->created_at ? $item->created_at->format('Y-m-d') : '-' }}
                                 </td>
                                 <td class="px-6 py-4 text-end">
                                     <div class="flex items-center justify-end gap-1.5">
-                                        <a href="{{ route('{{moduleLower}}.show', $item->id) }}" class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="عرض">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
+                                        <a href="{{ route('{{moduleLower}}.show', $item->id) }}" class="p-1.5 rounded-lg transition-colors" style="color: var(--sw-text-muted);" onmouseover="this.style.background='var(--sw-surface-hover)'; this.style.color='var(--sw-text-primary)'" onmouseout="this.style.background='transparent'; this.style.color='var(--sw-text-muted)'" title="عرض">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                         </a>
-                                        <a href="{{ route('{{moduleLower}}.edit', $item->id) }}" class="p-1.5 text-slate-400 hover:text-amber-500 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="تعديل">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
+                                        <a href="{{ route('{{moduleLower}}.edit', $item->id) }}" class="p-1.5 rounded-lg transition-colors" style="color: var(--sw-text-muted);" onmouseover="this.style.background='var(--sw-surface-hover)'; this.style.color='var(--sw-text-primary)'" onmouseout="this.style.background='transparent'; this.style.color='var(--sw-text-muted)'" title="تعديل">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                         </a>
-                                        <form action="{{ route('{{moduleLower}}.destroy', $item->id) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من رغبتك في حذف هذا العنصر؟')" class="inline-block">
+                                        <form action="{{ route('{{moduleLower}}.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('هل أنت متأكد من الحذف؟')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="حذف">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                </svg>
+                                            <button type="submit" class="p-1.5 rounded-lg transition-colors" style="color: var(--sw-danger);" onmouseover="this.style.background='var(--sw-danger-50)'" onmouseout="this.style.background='transparent'" title="حذف">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                             </button>
                                         </form>
                                     </div>
@@ -126,7 +119,7 @@
             </div>
 
             @if(${{modulePluralLower}}->hasPages())
-                <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800">
+                <div class="px-6 py-4" style="border-top: 1px solid var(--sw-border);">
                     {{ ${{modulePluralLower}}->links() }}
                 </div>
             @endif

@@ -14,8 +14,8 @@
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">
     <div>
-        <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">تعديل: {{ ${{moduleCamel}}->name }}</h1>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">تحديث بيانات الـ {{moduleLabel}}</p>
+        <h1 class="text-2xl font-bold" style="color: var(--sw-text-primary);">تعديل: {{ ${{moduleCamel}}->name }}</h1>
+        <p class="text-sm mt-1" style="color: var(--sw-text-muted);">تحديث بيانات الـ {{moduleLabel}}</p>
     </div>
 
     <form action="{{ route('{{moduleLower}}.update', ${{moduleCamel}}->id) }}" method="POST" enctype="multipart/form-data">
