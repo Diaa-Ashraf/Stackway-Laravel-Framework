@@ -30,7 +30,7 @@
     }
 }">
     @if($label)
-        <label for="{{ $name }}" class="block text-sm font-medium mb-1.5" style="color: var(--sw-text-main);">
+        <label for="{{ $name }}" class="block text-sm font-medium mb-1.5" style="color: var(--sw-text-primary);">
             {{ $label }}
             @if($required)
                 <span class="text-rose-500 font-bold">*</span>
