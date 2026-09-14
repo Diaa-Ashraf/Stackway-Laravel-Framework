@@ -416,6 +416,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    {{-- Alpine.js (Core Interactivity: Sidebar, Dropdowns, Modals) --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
     @stack('styles')
 </head>
 <body class="font-sans antialiased" x-data="{ sidebarCollapsed: localStorage.getItem('sw_sidebar') === 'collapsed', mobileOpen: false }"
@@ -432,7 +435,7 @@
     <x-sw-sidebar :items="$sidebarItems ?? []" />
 
     {{-- Main Content Wrapper --}}
-    <div class="sw-main" :class="{ 'lg:ml-[68px]': sidebarCollapsed, 'lg:ml-[256px]': !sidebarCollapsed }">
+    <div class="sw-main" :class="{ 'collapsed': sidebarCollapsed }">
 
         {{-- Header --}}
         <x-sw-header :breadcrumbs="$breadcrumbs ?? []" />

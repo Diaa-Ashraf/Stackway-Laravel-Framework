@@ -37,9 +37,10 @@ class InstallDashboardCommand extends Command
         File::put($modulesPath . '/.gitkeep', '');
         $this->line('  <fg=green>✓</> Modules directory created');
 
-        // 4. Update CSS import
+        // 4. Update CSS & JS imports
         $this->updateAppCss();
-        $this->line('  <fg=green>✓</> Updated resources/css/app.css');
+        $this->updateAppJs();
+        $this->line('  <fg=green>✓</> Updated resources/css/app.css & resources/js/app.js');
 
         // 5. Publish Sanctum config
         if (class_exists(\Laravel\Sanctum\SanctumServiceProvider::class)) {
@@ -108,6 +109,26 @@ class InstallDashboardCommand extends Command
         if (!str_contains($content, 'stackway-theme')) {
             $content = "/* Stackway Design System */\n{$importLine}\n\n" . $content;
             File::put($appCssPath, $content);
+        }
+    }
+
+    /**
+     * Update the app.js to import Alpine.js if not already present.
+     */
+    protected function updateAppJs(): void
+    {
+        $appJsPath = resource_path('js/app.js');
+
+        if (!File::exists($appJsPath)) {
+            return;
+        }
+
+        $content = File::get($appJsPath);
+
+        if (!str_contains($content, 'alpinejs') && !str_contains($content, 'Alpine')) {
+            $alpineSnippet = "\nimport Alpine from 'alpinejs';\nwindow.Alpine = Alpine;\nAlpine.start();\n";
+            $content .= $alpineSnippet;
+            File::put($appJsPath, $content);
         }
     }
 }
