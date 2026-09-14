@@ -69,7 +69,18 @@ class MakeModuleCommand extends Command
         $this->createFile($modulePath, 'Models', "{$name}.php", 'model', $replacements);
         $this->createFile($modulePath, 'Requests', "Store{$name}Request.php", 'request-store', $replacements);
         $this->createFile($modulePath, 'Requests', "Update{$name}Request.php", 'request-update', $replacements);
-        $this->createFile($modulePath, 'Database/Migrations', date('Y_m_d_His') . "_create_" . Str::snake(Str::plural($name)) . "_table.php", 'migration', $replacements);
+        
+        $tableSnake = Str::snake(Str::plural($name));
+        $migrationsDir = $modulePath . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR . 'Migrations';
+        $existingMigration = null;
+        if (File::isDirectory($migrationsDir)) {
+            $files = File::glob($migrationsDir . "/*_create_{$tableSnake}_table.php");
+            if (!empty($files)) {
+                $existingMigration = basename($files[0]);
+            }
+        }
+        $migrationFileName = $existingMigration ?: (date('Y_m_d_His') . "_create_{$tableSnake}_table.php");
+        $this->createFile($modulePath, 'Database/Migrations', $migrationFileName, 'migration', $replacements);
 
         // Views
         $this->createFile($modulePath, 'Views', 'index.blade.php', 'views/index', $replacements);
@@ -130,27 +141,26 @@ class MakeModuleCommand extends Command
     }
 
     /**
-     * Resolve options from flags or interactive prompts.
+     * Resolve module configuration from interactive prompts or CLI flags.
      */
     protected function resolveOptions(): void
     {
-        $all = $this->option('all');
-
         if ($this->option('interactive')) {
             $this->options = [
-                'service'     => $this->confirm('Need Service Layer?', true),
-                'repo'        => $this->confirm('Need Repository Layer?', false),
-                'api'         => $this->confirm('Need API support?', false),
-                'cache'       => $this->confirm('Need Caching?', false),
-                'translation' => $this->confirm('Need Translation?', false),
-                'media'       => $this->confirm('Need Media Upload?', false),
-                'filter'      => $this->confirm('Need Filter class?', false),
+                'api'         => $this->confirm('Enable API Controller & Resource?', false),
+                'service'     => $this->confirm('Enable Service Layer?', false),
+                'repo'        => $this->confirm('Enable Repository Pattern with Interface?', false),
+                'cache'       => $this->confirm('Include Cache in Repository?', false),
+                'translation' => $this->confirm('Enable Translatable fields (Spatie)?', false),
+                'media'       => $this->confirm('Enable Media Upload (Spatie)?', false),
+                'filter'      => $this->confirm('Enable Pipeline Filter?', false),
             ];
         } else {
+            $all = $this->option('all');
             $this->options = [
+                'api'         => $all || $this->option('api'),
                 'service'     => $all || $this->option('service'),
                 'repo'        => $all || $this->option('repo'),
-                'api'         => $all || $this->option('api'),
                 'cache'       => $all || $this->option('cache'),
                 'translation' => $all || $this->option('translation'),
                 'media'       => $all || $this->option('media'),
@@ -167,7 +177,7 @@ class MakeModuleCommand extends Command
         $directory = $modulePath . DIRECTORY_SEPARATOR . $subDir;
         $filePath = $directory . DIRECTORY_SEPARATOR . $fileName;
 
-        if (File::exists($filePath)) {
+        if (File::exists($filePath) && !$this->option('force')) {
             $this->warn("  ⚠ Already exists: {$subDir}/{$fileName}");
             return;
         }
