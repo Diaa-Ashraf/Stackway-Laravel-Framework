@@ -18,13 +18,13 @@
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex items-center justify-center p-4 relative overflow-x-hidden selection:bg-violet-500 selection:text-white">
+<body class="font-sans antialiased min-h-screen bg-stone-50 dark:bg-zinc-950 text-stone-800 dark:text-zinc-100 flex items-center justify-center p-4 relative overflow-x-hidden selection:bg-teal-600 selection:text-white">
 
     {{-- Background Decorative Ambient Blobs --}}
     <div class="fixed inset-0 pointer-events-none overflow-hidden">
-        <div class="absolute -top-40 -start-40 w-96 h-96 bg-violet-600/20 dark:bg-violet-600/15 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-40 -end-40 w-96 h-96 bg-indigo-600/20 dark:bg-indigo-600/15 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/10 dark:bg-cyan-600/5 rounded-full blur-3xl"></div>
+        <div class="absolute -top-40 -start-40 w-96 h-96 bg-teal-600/20 dark:bg-teal-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -end-40 w-96 h-96 bg-cyan-600/15 dark:bg-cyan-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-600/8 dark:bg-teal-600/5 rounded-full blur-3xl"></div>
     </div>
 
     {{-- Theme Mode Toggle (Top Floating) --}}
@@ -43,7 +43,7 @@
     <div class="relative z-10 w-full max-w-md py-8">
         {{-- Brand Logo --}}
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25 mb-4 transform hover:scale-105 transition-transform duration-300">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-600 to-cyan-600 text-white shadow-lg shadow-teal-500/25 mb-4 transform hover:scale-105 transition-transform duration-300">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
@@ -55,7 +55,7 @@
         </div>
 
         {{-- Auth Card --}}
-        <div class="rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-xl shadow-slate-200/50 dark:shadow-none p-6 sm:p-8">
+        <div class="rounded-3xl border border-stone-200/80 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl shadow-xl shadow-stone-200/50 dark:shadow-none p-6 sm:p-8">
             @yield('content')
         </div>
 

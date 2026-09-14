@@ -106,7 +106,7 @@
         {{-- Submit Button --}}
         <button
             type="submit"
-            class="w-full py-3 px-4 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-md shadow-violet-500/25 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500/50 cursor-pointer flex items-center justify-center gap-2"
+            class="w-full py-3 px-4 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 shadow-md shadow-teal-500/25 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 cursor-pointer flex items-center justify-center gap-2"
         >
             <span>تسجيل الدخول</span>
             <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@
             <button
                 type="button"
                 onclick="document.getElementById('email').value='admin@stackway.dev'; document.getElementById('password').value='password';"
-                class="px-2 py-1 rounded-lg bg-violet-100 dark:bg-violet-900/40 text-[var(--sw-primary)] font-bold hover:bg-violet-200 transition text-[11px]"
+                class="px-2 py-1 rounded-lg bg-teal-100 dark:bg-teal-900/40 text-[var(--sw-primary)] font-bold hover:bg-teal-200 transition text-[11px]"
             >
                 تعبئة تلقائية
             </button>

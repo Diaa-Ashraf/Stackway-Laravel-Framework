@@ -19,12 +19,12 @@ $sizeClasses = match($size) {
 };
 
 $variantClasses = match($variant) {
-    'primary' => 'bg-[var(--sw-primary)] hover:bg-[var(--sw-primary-hover)] text-white shadow-sm shadow-[var(--sw-primary)]/25 focus:ring-[var(--sw-primary)]',
-    'secondary' => 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 focus:ring-slate-400',
-    'danger' => 'bg-rose-500 hover:bg-rose-600 text-white shadow-sm shadow-rose-500/25 focus:ring-rose-500',
-    'success' => 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm shadow-emerald-500/25 focus:ring-emerald-500',
-    'outline' => 'border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-200 focus:ring-[var(--sw-primary)]',
-    'ghost' => 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 focus:ring-slate-400',
+    'primary' => 'bg-[var(--sw-primary)] hover:bg-[var(--sw-primary-hover)] text-white shadow-sm focus:ring-[var(--sw-primary)] focus:ring-2 focus:ring-offset-2',
+    'secondary' => 'bg-[var(--sw-surface-hover)] hover:bg-[var(--sw-surface-pressed)] text-[var(--sw-text-primary)] border border-[var(--sw-border)] hover:border-[var(--sw-border-hover)] focus:ring-[var(--sw-primary)]',
+    'danger' => 'bg-[var(--sw-danger)] hover:brightness-110 text-white shadow-sm focus:ring-[var(--sw-danger)]',
+    'success' => 'bg-[var(--sw-success)] hover:brightness-110 text-white shadow-sm focus:ring-[var(--sw-success)]',
+    'outline' => 'border border-[var(--sw-border)] hover:border-[var(--sw-border-hover)] hover:bg-[var(--sw-surface-hover)] text-[var(--sw-text-primary)] focus:ring-[var(--sw-primary)]',
+    'ghost' => 'hover:bg-[var(--sw-surface-hover)] text-[var(--sw-text-secondary)] hover:text-[var(--sw-text-primary)] focus:ring-[var(--sw-primary)]',
     default => 'bg-[var(--sw-primary)] text-white',
 };
 

@@ -7,7 +7,7 @@
 
     {{-- User Header Banner --}}
     <div class="rounded-2xl p-6 md:p-8"
-         style="background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%); border: 1px solid rgba(99, 102, 241, 0.2); box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.25);">
+         style="background: linear-gradient(135deg, #042F2E 0%, #09090B 100%); border: 1px solid rgba(20, 184, 166, 0.2); box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.4);">
         <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5">
             {{-- User Avatar --}}
             <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl text-white shadow-md flex-shrink-0"
@@ -19,12 +19,12 @@
                 <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
                     <h1 class="text-xl font-bold text-white">{{ auth()->user()->name }}</h1>
                     <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full"
-                          style="background: rgba(99, 102, 241, 0.25); color: #C7D2FE; border: 1px solid rgba(165, 180, 252, 0.3);">
+                          style="background: rgba(20, 184, 166, 0.2); color: #5EEAD4; border: 1px solid rgba(20, 184, 166, 0.3);">
                         مدير النظام
                     </span>
                 </div>
-                <p class="text-sm text-slate-300 font-mono">{{ auth()->user()->email }}</p>
-                <p class="text-xs text-slate-400">
+                <p class="text-sm text-zinc-400 font-mono">{{ auth()->user()->email }}</p>
+                <p class="text-xs text-zinc-500">
                     تاريخ الانضمام: {{ auth()->user()->created_at ? auth()->user()->created_at->format('Y-m-d') : 'الآن' }}
                 </p>
             </div>

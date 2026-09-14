@@ -21,11 +21,11 @@
     ];
     $badgeBgMap = [
         'primary'   => 'var(--sw-primary-50)',
-        'secondary' => 'rgba(2, 132, 199, 0.12)',
+        'secondary' => 'rgba(6, 182, 212, 0.12)',
         'success'   => 'var(--sw-success-50)',
         'danger'    => 'var(--sw-danger-50)',
-        'warning'   => 'rgba(217, 119, 6, 0.12)',
-        'info'      => 'rgba(2, 132, 199, 0.12)',
+        'warning'   => 'rgba(245, 158, 11, 0.12)',
+        'info'      => 'rgba(56, 189, 248, 0.12)',
     ];
     $iconColor = $colorMap[$color] ?? $colorMap['primary'];
     $iconBg = $badgeBgMap[$color] ?? $badgeBgMap['primary'];

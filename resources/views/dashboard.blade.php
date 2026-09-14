@@ -7,17 +7,17 @@
 
     {{-- Executive Header Banner --}}
     <div class="rounded-2xl p-6 md:p-8 transition-all"
-         style="background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%); border: 1px solid rgba(99, 102, 241, 0.2); box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.25);">
+         style="background: linear-gradient(135deg, #042F2E 0%, #09090B 100%); border: 1px solid rgba(20, 184, 166, 0.2); box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.25);">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div class="space-y-2">
                 <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full"
-                     style="background: rgba(99, 102, 241, 0.2); color: #C7D2FE; border: 1px solid rgba(165, 180, 252, 0.25);">
+                     style="background: rgba(20, 184, 166, 0.15); color: #5EEAD4; border: 1px solid rgba(94, 234, 212, 0.25);">
                     <span>Stackway Modular Core</span>
                 </div>
                 <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-white">
                     لوحة التحكم المركزية
                 </h1>
-                <p class="text-slate-300 text-sm max-w-2xl leading-relaxed">
+                <p class="text-sm max-w-2xl leading-relaxed" style="color: #A1A1AA;">
                     نظام إدارة موحد يكتشف الوحدات البرمجية المسجلة في التطبيق تلقائياً مع توفير واجهات الإدارة والإحصائيات.
                 </p>
             </div>
@@ -26,12 +26,12 @@
                 <div class="px-4 py-2.5 rounded-xl text-center"
                      style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);">
                     <span class="block text-xl font-bold text-white font-mono">{{ $stats['modules_count'] ?? 0 }}</span>
-                    <span class="text-xs text-slate-300">وحدات نشطة</span>
+                    <span class="text-xs" style="color: #A1A1AA;">وحدات نشطة</span>
                 </div>
                 <div class="px-4 py-2.5 rounded-xl text-center"
                      style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);">
                     <span class="block text-xl font-bold text-white font-mono">{{ $stats['total_records'] ?? 0 }}</span>
-                    <span class="text-xs text-slate-300">إجمالي السجلات</span>
+                    <span class="text-xs" style="color: #A1A1AA;">إجمالي السجلات</span>
                 </div>
             </div>
         </div>
