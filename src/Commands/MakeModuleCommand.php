@@ -21,6 +21,7 @@ class MakeModuleCommand extends Command
                             {--media : Include media upload support}
                             {--filter : Generate Filter class}
                             {--interactive : Ask about each option interactively}
+                            {--force : Overwrite existing files}
                             {--all : Generate all layers}';
 
     /**
