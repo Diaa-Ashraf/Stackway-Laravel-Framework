@@ -202,7 +202,7 @@
                         <h5 class="mb-0 fw-bold">حركة السجلات والنشاط</h5>
                         <small class="text-muted">مقارنة حركة إضافة المنتجات والمهام اليومية</small>
                     </div>
-                    <span class="badge bg-light text-secondary border">آخر 7 أيام</span>
+                    <span class="sw-badge-muted">آخر 7 أيام</span>
                 </div>
                 <div class="card-body p-4">
                     <div id="salesPurchaseChart" style="min-height: 350px;"></div>
@@ -218,7 +218,7 @@
                         <h5 class="mb-0 fw-bold">توزيع السجلات وحالتها</h5>
                         <small class="text-muted">نسبة المنتجات النشطة والملاحظات بالنظام</small>
                     </div>
-                    <span class="badge bg-light text-secondary border">إجمالي حي</span>
+                    <span class="sw-badge-muted">إجمالي حي</span>
                 </div>
                 <div class="card-body p-4">
                     <div id="customerChart" style="min-height: 280px;"></div>
@@ -259,7 +259,7 @@
                     <div class="row g-3">
                         @foreach($modules as $module)
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div class="p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                                <div class="p-3 rounded-3 sw-surface-box d-flex align-items-center justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="icon-shape icon-md bg-primary-subtle rounded-2 text-primary">
                                             <i class="{{ $module['icon'] ?? 'ti ti-box-seam' }} fs-4"></i>
@@ -326,7 +326,7 @@
                                     @if($pImg)
                                         <img src="{{ $pImg }}" class="rounded-2 border flex-shrink-0" width="44" height="44" style="object-fit: cover;">
                                     @else
-                                        <div class="icon-shape icon-md rounded-2 bg-light text-secondary flex-shrink-0 border">
+                                        <div class="icon-shape icon-md rounded-2 sw-icon-box flex-shrink-0">
                                             <i class="ti ti-package fs-4"></i>
                                         </div>
                                     @endif
@@ -380,7 +380,7 @@
                         <ul class="list-group list-group-flush mb-0">
                             @foreach($latestNotes as $note)
                                 <li class="list-group-item d-flex align-items-center gap-3 px-4 py-3">
-                                    <div class="icon-shape icon-md rounded-2 bg-light text-primary flex-shrink-0 border">
+                                    <div class="icon-shape icon-md rounded-2 sw-icon-box flex-shrink-0">
                                         <i class="ti ti-note fs-4"></i>
                                     </div>
                                     <div class="flex-grow-1">
@@ -398,7 +398,15 @@
                                             <i class="ti ti-pin"></i>
                                         </span>
                                     @endif
-                                    <span class="badge bg-light text-secondary border">
+                                    @php
+                                        $priorityClass = match(strtolower($note->priority ?? '')) {
+                                            'high', 'عالي', 'قصوى' => 'bg-danger-subtle text-danger border-danger-subtle',
+                                            'medium', 'متوسط' => 'bg-warning-subtle text-warning border-warning-subtle',
+                                            'low', 'منخفض' => 'bg-info-subtle text-info border-info-subtle',
+                                            default => 'sw-badge-muted'
+                                        };
+                                    @endphp
+                                    <span class="badge border {{ $priorityClass }}">
                                         {{ $note->priority }}
                                     </span>
                                 </li>
@@ -420,13 +428,13 @@
                         <h5 class="mb-0 fw-bold">سجل العمليات والنشاط الأخير</h5>
                         <small class="text-muted">تتبع حي لأحدث الأحداث والإضافات بالنظام</small>
                     </div>
-                    <span class="badge bg-light text-secondary border">سجل حي</span>
+                    <span class="sw-badge-muted">سجل حي</span>
                 </div>
                 <div class="card-body p-4">
                     <div class="row g-3">
                         @foreach($recentActivities as $act)
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div class="p-3 border rounded-3 bg-light d-flex align-items-start gap-3 h-100">
+                                <div class="p-3 rounded-3 sw-surface-box d-flex align-items-start gap-3 h-100">
                                     <div class="icon-shape icon-sm rounded-circle bg-primary-subtle text-primary flex-shrink-0 mt-1">
                                         <i class="{{ $act['icon'] ?? 'ti ti-activity' }} fs-5"></i>
                                     </div>
