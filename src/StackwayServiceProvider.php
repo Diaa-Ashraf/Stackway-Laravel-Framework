@@ -85,6 +85,11 @@ class StackwayServiceProvider extends ServiceProvider
                 __DIR__ . '/../resources/css/stackway-theme.css' => resource_path('css/stackway-theme.css'),
             ], 'stackway-theme');
 
+            // Assets (Images, Icons)
+            $this->publishes([
+                __DIR__ . '/../resources/assets' => public_path('assets'),
+            ], 'stackway-assets');
+
             // Stubs (for customization)
             $this->publishes([
                 __DIR__ . '/../stubs' => base_path('stubs/stackway'),

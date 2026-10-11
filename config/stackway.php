@@ -13,33 +13,34 @@ return [
     */
 
     'theme' => [
-        'mode' => env('STACKWAY_THEME_MODE', 'system'), // 'light', 'dark', 'system'
+        'mode' => env('STACKWAY_THEME_MODE', 'light'), // 'light', 'dark', 'system'
 
         'colors' => [
-            'primary'   => '#6D28D9',
-            'secondary' => '#0891B2',
-            'accent'    => '#D97706',
-            'success'   => '#059669',
-            'danger'    => '#DC2626',
-            'warning'   => '#D97706',
-            'info'      => '#0284C7',
+            'primary'   => '#C85A32', // Terracotta (Dominant)
+            'secondary' => '#5C554E', // Warm Ink Charcoal
+            'accent'    => '#3A5A40', // Deep Olive (Sharp Accent)
+            'sand'      => '#DDB892', // Warm Sand
+            'success'   => '#3A5A40', // Deep Olive
+            'danger'    => '#C0392B', // Warm Rust Red
+            'warning'   => '#D48B28', // Warm Amber
+            'info'      => '#4A7C59', // Muted Sage Green
         ],
 
         'sidebar' => [
             'style'    => 'collapsible', // 'fixed', 'collapsible'
             'position' => 'left',
-            'width'    => '260px',
-            'collapsed_width' => '72px',
+            'width'    => '240px',
+            'collapsed_width' => '68px',
         ],
 
         'fonts' => [
-            'heading' => 'Inter',
-            'body'    => 'Inter',
+            'heading' => 'Poppins',
+            'body'    => 'Poppins',
             'arabic'  => 'IBM Plex Sans Arabic',
             'mono'    => 'JetBrains Mono',
         ],
 
-        'border_radius' => '12px',
+        'border_radius' => '8px',
     ],
 
     /*

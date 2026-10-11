@@ -1,29 +1,27 @@
 @extends('stackway::layouts.auth')
 
 @section('title', 'إنشاء حساب جديد')
+@section('heading', 'إنشاء حساب جديد ✨')
+@section('subheading', 'سجل حسابك للوصول إلى لوحة التحكم')
 
 @section('content')
-<div class="space-y-6">
-
-    <div class="text-center">
-        <h1 class="text-xl font-bold text-slate-900 dark:text-white">إنشاء حساب جديد ✨</h1>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">سجل حسابك للوصول إلى لوحة التحكم</p>
-    </div>
-
+<div>
     @if (isset($errors) && $errors->any())
-        <div class="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-xs font-medium border border-rose-200 dark:border-rose-800 space-y-1">
-            @foreach ($errors->all() as $error)
-                <p>• {{ $error }}</p>
-            @endforeach
+        <div class="alert alert-danger py-2 px-3 small mb-3">
+            <ul class="mb-0 ps-3">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
 
-    <form method="POST" action="{{ route('register') }}" class="space-y-4">
+    <form method="POST" action="{{ route('register') }}" class="needs-validation">
         @csrf
 
         {{-- Name --}}
-        <div>
-            <label for="name" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">الاسم الكامل</label>
+        <div class="mb-3">
+            <label for="name" class="form-label small fw-semibold">الاسم الكامل</label>
             <input
                 id="name"
                 type="text"
@@ -33,13 +31,13 @@
                 autofocus
                 autocomplete="name"
                 placeholder="محمد علي"
-                class="sw-input w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 transition"
+                class="form-control"
             />
         </div>
 
         {{-- Email Address --}}
-        <div>
-            <label for="email" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">البريد الإلكتروني</label>
+        <div class="mb-3">
+            <label for="email" class="form-label small fw-semibold">البريد الإلكتروني</label>
             <input
                 id="email"
                 type="email"
@@ -48,13 +46,13 @@
                 required
                 autocomplete="username"
                 placeholder="name@example.com"
-                class="sw-input w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 transition"
+                class="form-control"
             />
         </div>
 
         {{-- Password --}}
-        <div>
-            <label for="password" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">كلمة المرور</label>
+        <div class="mb-3">
+            <label for="password" class="form-label small fw-semibold">كلمة المرور</label>
             <input
                 id="password"
                 type="password"
@@ -62,13 +60,13 @@
                 required
                 autocomplete="new-password"
                 placeholder="••••••••"
-                class="sw-input w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 transition"
+                class="form-control"
             />
         </div>
 
         {{-- Confirm Password --}}
-        <div>
-            <label for="password_confirmation" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">تأكيد كلمة المرور</label>
+        <div class="mb-4">
+            <label for="password_confirmation" class="form-label small fw-semibold">تأكيد كلمة المرور</label>
             <input
                 id="password_confirmation"
                 type="password"
@@ -76,27 +74,25 @@
                 required
                 autocomplete="new-password"
                 placeholder="••••••••"
-                class="sw-input w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 transition"
+                class="form-control"
             />
         </div>
 
         {{-- Submit Button --}}
-        <button
-            type="submit"
-            class="w-full py-3 px-4 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 shadow-md shadow-teal-500/25 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 cursor-pointer"
-        >
-            إنشاء الحساب
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+            <span>إنشاء الحساب</span>
+            <i class="ti ti-arrow-left ms-1"></i>
         </button>
     </form>
 
-    <div class="text-center pt-2">
-        <p class="text-xs text-slate-500 dark:text-slate-400">
+    {{-- Login link --}}
+    @if (Route::has('login'))
+        <div class="text-center mt-4 small text-secondary">
             لديك حساب بالفعل؟
-            <a href="{{ route('login') }}" class="font-bold text-[var(--sw-primary)] hover:underline">
+            <a href="{{ route('login') }}" class="link-primary text-decoration-none fw-semibold">
                 تسجيل الدخول
             </a>
-        </p>
-    </div>
-
+        </div>
+    @endif
 </div>
 @endsection

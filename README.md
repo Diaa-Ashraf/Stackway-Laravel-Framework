@@ -4,7 +4,7 @@
 [![PHP 8.2+](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg?style=for-the-badge)](LICENSE)
 
-**Stackway Core** هو إطار عمل Laravel شخصي و **SaaS Starter Kit** مبني وفق أعلى معايير **Clean Architecture** و **Modular Architecture**. يوفر لك لوحة تحكم عصرية جاهزة (Obsidian Teal)، أكثر من 21 مكون Blade متطور، مولد موديولات ذكي، وربط تلقائي للـ Repositories مع دعم كامل للغة العربية (RTL) والوضع الليلي (Dark Mode).
+**Stackway Core** هو إطار عمل Laravel شخصي و **SaaS Starter Kit** مبني وفق أعلى معايير **Clean Architecture** و **Modular Architecture**. يوفر لك لوحة تحكم عصرية وجذابة مبنية على ثيم **InApp** الحديث، أكثر من 21 مكون Blade متطور، مولد موديولات ذكي، وربط تلقائي للـ Repositories مع دعم كامل لتخصيص الألوان واللغة العربية (RTL) والوضع الليلي (Dark Mode).
 
 ---
 
@@ -12,7 +12,8 @@
 
 - 🏗️ **معمارية معيارية (Modular Architecture):** عزل كامل لكل موديول داخل `app/Modules/{Name}` بجميع طبقاته.
 - ⚡ **Clean Architecture Generator:** توليد موديول متكامل بضغطة زر (Controller, Model, Service, Repository, Requests, Views, API).
-- 📊 **لوحة تحكم ديناميكية (Obsidian Teal):** اكتشاف تلقائي للموديولات المنشأة وعرض إحصائياتها لحظياً.
+- 📊 **لوحة تحكم InApp ديناميكية:** واجهة عصرية جداً مع رسوم بيانية تفاعلية (ApexCharts)، إحصائيات للمخزون والمبيعات، واكتشاف تلقائي للموديولات المنشأة وعرض إحصائياتها لحظياً.
+- 🎨 **تخصيص الألوان بسهولة (Color Customization):** متغيرات CSS Variables واضحة في بداية ملف الثيم تسمح بتغيير اللون الرئيسي والألوان الثانوية بضغطة زر.
 - 🧩 **أكثر من 21 مكون Blade جاهز (`<x-sw-*>`):** بطاقات، جداول، نوافذ منبثقة، أزرار، حقول إدخال، رفع ملفات، وتنبيهات.
 - 🔄 **ربط تلقائي للـ Repositories:** يتم ربط الـ Interfaces بالـ Repositories تلقائياً عبر `StackwayServiceProvider`.
 - 🔐 **واجهات Auth و API Auth جاهزة:** واجهات تسجيل الدخول والملف الشخصي + نظام كامل لـ API Authentication عبر Sanctum.

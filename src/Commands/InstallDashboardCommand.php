@@ -31,6 +31,13 @@ class InstallDashboardCommand extends Command
         ]);
         $this->line('  <fg=green>✓</> Theme CSS published');
 
+        // 2.1 Publish assets (Images, Icons)
+        $this->call('vendor:publish', [
+            '--tag'   => 'stackway-assets',
+            '--force' => $this->option('force'),
+        ]);
+        $this->line('  <fg=green>✓</> Assets published');
+
         // 3. Create Modules directory
         $modulesPath = base_path(config('stackway.module.base_path', 'app/Modules'));
         File::ensureDirectoryExists($modulesPath);

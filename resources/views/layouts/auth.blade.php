@@ -1,88 +1,224 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
-      data-theme="{{ session('theme', config('stackway.theme.mode', 'system')) }}">
+      data-theme="{{ session('theme', config('stackway.theme.mode', 'light')) }}"
+      data-bs-theme="{{ session('theme', config('stackway.theme.mode', 'light')) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'تسجيل الدخول') — {{ config('app.name', 'Stackway') }}</title>
+    @php
+        $appSettingName = setting('app_name', config('app.name', 'InApp'));
+        $appFavicon = setting('app_favicon');
+        $faviconUrl = $appFavicon ? asset('storage/' . $appFavicon) : asset('assets/images/favicon_io/favicon-32x32.png');
+        $appleFaviconUrl = $appFavicon ? asset('storage/' . $appFavicon) : asset('assets/images/favicon_io/apple-touch-icon.png');
+        $primaryColor = setting('primary_color', config('stackway.theme.colors.primary', '#C85A32'));
+    @endphp
 
-    {{-- Fonts --}}
+    <title>@yield('title', 'تسجيل الدخول') — {{ $appSettingName }}</title>
+
+    {{-- Favicons --}}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ $appleFaviconUrl }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ $faviconUrl }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ $faviconUrl }}">
+    <link rel="shortcut icon" href="{{ $faviconUrl }}">
+
+    {{-- Fonts (Poppins & Arabic) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    {{-- Styles --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Bootstrap 5.3 (RTL / LTR) --}}
+    @if(app()->getLocale() === 'ar')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+    @else
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    @endif
+
+    {{-- Tabler Icons --}}
+    <link rel="stylesheet" href="{{ asset('assets/tabler-icons/tabler-icons.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.35.0/tabler-icons.min.css">
+
+    {{-- InApp Design System Overrides & Color Variables --}}
+    <style>
+        :root {
+            /* 🎨 Palette: Terracotta + Sand + Deep Olive */
+            --sw-primary: {{ $primaryColor }};
+            --sw-primary-hover: #B84722;
+            --sw-primary-rgb: 200, 90, 50;
+
+            /* Hook into Bootstrap 5 Tokens */
+            --bs-primary: var(--sw-primary);
+            --bs-primary-rgb: var(--sw-primary-rgb);
+            --bs-link-color: var(--sw-primary);
+            --bs-link-hover-color: var(--sw-primary-hover);
+            --bs-body-font-family: 'Poppins', 'IBM Plex Sans Arabic', -apple-system, sans-serif;
+            --bs-body-bg: #FAF7F2;
+            --bs-card-bg: #FFFFFF;
+            --bs-card-border-color: #E8E2D9;
+            --bs-border-color: #E8E2D9;
+        }
+
+        [dir="rtl"] {
+            --bs-body-font-family: 'IBM Plex Sans Arabic', 'Poppins', -apple-system, sans-serif;
+        }
+
+        /* ── Dark Mode: Warm Tinted Black (#14110F), strictly never navy/slate ── */
+        [data-theme="dark"], .dark {
+            --bs-body-bg: #14110F;
+            --bs-body-color: #F5EFEB;
+            --bs-card-bg: #1C1815;
+            --bs-card-border-color: #332B25;
+            --bs-border-color: #332B25;
+        }
+
+        body {
+            background-color: var(--bs-body-bg);
+            font-family: var(--bs-body-font-family);
+            min-height: 100vh;
+        }
+
+        .btn-primary {
+            background-color: var(--sw-primary) !important;
+            border-color: var(--sw-primary) !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 2px 6px rgba(230, 98, 57, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--sw-primary-hover) !important;
+            border-color: var(--sw-primary-hover) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(230, 98, 57, 0.35);
+        }
+
+        .form-control:focus {
+            border-color: var(--sw-primary) !important;
+            box-shadow: 0 0 0 0.25rem rgba(230, 98, 57, 0.2) !important;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--sw-primary) !important;
+            border-color: var(--sw-primary) !important;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #dee2e6;
+            background: #ffffff;
+            color: #495057;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.2s ease;
+        }
+
+        [dir="rtl"] .theme-toggle-btn {
+            right: auto;
+            left: 20px;
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--sw-primary);
+            border-color: var(--sw-primary);
+        }
+    </style>
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased min-h-screen bg-stone-50 dark:bg-zinc-950 text-stone-800 dark:text-zinc-100 flex items-center justify-center p-4 relative overflow-x-hidden selection:bg-teal-600 selection:text-white">
+<body>
 
-    {{-- Background Decorative Ambient Blobs --}}
-    <div class="fixed inset-0 pointer-events-none overflow-hidden">
-        <div class="absolute -top-40 -start-40 w-96 h-96 bg-teal-600/20 dark:bg-teal-600/10 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-40 -end-40 w-96 h-96 bg-cyan-600/15 dark:bg-cyan-600/10 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-600/8 dark:bg-teal-600/5 rounded-full blur-3xl"></div>
-    </div>
+    {{-- Dark/Light Mode Switcher --}}
+    <button type="button" onclick="window.toggleTheme()" class="theme-toggle-btn" title="تغيير المظهر">
+        <i class="ti ti-moon" id="theme-moon-icon"></i>
+        <i class="ti ti-sun d-none" id="theme-sun-icon"></i>
+    </button>
 
-    {{-- Theme Mode Toggle (Top Floating) --}}
-    <div class="absolute top-6 end-6 z-20">
-        <button type="button" onclick="window.toggleTheme()" class="p-2.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white shadow-sm transition" title="تبديل الوضع">
-            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
-            <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
-        </button>
-    </div>
+    {{-- InApp Signin Page Structure --}}
+    <div class="container d-flex align-items-center justify-content-center min-vh-100 py-5">
+        <div class="card shadow-sm border-0" style="max-width: 440px; width: 100%; border-radius: 12px;">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    @php
+                        $customLogo = setting('app_logo');
+                    @endphp
+                    <a href="{{ url('/') }}" class="mb-3 d-inline-flex align-items-center justify-content-center text-decoration-none">
+                        @if($customLogo)
+                            <img src="{{ asset('storage/' . $customLogo) }}" alt="{{ $appSettingName }}" style="max-height: 48px; max-width: 220px; object-fit: contain;">
+                        @else
+                            <img src="{{ asset('assets/images/logo-icon.svg') }}" alt="" width="36" height="36">
+                            <span class="ms-2 fw-bold fs-4" style="letter-spacing: -0.5px; color: var(--sw-text-primary);">
+                                {{ $appSettingName }}
+                            </span>
+                        @endif
+                    </a>
+                    <h1 class="card-title h5 fw-bold mb-1">@yield('heading', 'تسجيل الدخول إلى حسابك')</h1>
+                    <p class="text-secondary small mb-0">@yield('subheading', 'أدخل بيانات حسابك للمتابعة إلى لوحة التحكم')</p>
+                </div>
 
-    {{-- Main Container --}}
-    <div class="relative z-10 w-full max-w-md py-8">
-        {{-- Brand Logo --}}
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-600 to-cyan-600 text-white shadow-lg shadow-teal-500/25 mb-4 transform hover:scale-105 transition-transform duration-300">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                </svg>
+                @yield('content')
             </div>
-            <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                {{ config('app.name', 'Stackway') }}
-            </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">منصة إدارة الأنظمة واللوحات المتطورة</p>
-        </div>
-
-        {{-- Auth Card --}}
-        <div class="rounded-3xl border border-stone-200/80 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl shadow-xl shadow-stone-200/50 dark:shadow-none p-6 sm:p-8">
-            @yield('content')
-        </div>
-
-        {{-- Footer Note --}}
-        <div class="text-center mt-6 text-xs text-slate-400 dark:text-slate-500">
-            <p>© {{ date('Y') }} {{ config('app.name', 'Stackway') }}. جميع الحقوق محفوظة.</p>
         </div>
     </div>
 
-    {{-- Theme Init Script --}}
+    {{-- Bootstrap Bundle JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Theme Mode Script --}}
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('sw_theme') || "{{ config('stackway.theme.mode', 'system') }}";
+            const savedTheme = localStorage.getItem('sw_theme') || "{{ config('stackway.theme.mode', 'light') }}";
+            let theme = savedTheme;
             if (savedTheme === 'system') {
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', savedTheme);
+                theme = prefersDark ? 'dark' : 'light';
             }
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateIcons(theme);
         })();
 
         window.toggleTheme = function() {
-            const current = document.documentElement.getAttribute('data-theme');
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
             const next = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
+            document.documentElement.setAttribute('data-bs-theme', next);
+            if (next === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
             localStorage.setItem('sw_theme', next);
+            updateIcons(next);
         };
+
+        function updateIcons(theme) {
+            const sun = document.getElementById('theme-sun-icon');
+            const moon = document.getElementById('theme-moon-icon');
+            if (sun && moon) {
+                if (theme === 'dark') {
+                    sun.classList.remove('d-none');
+                    moon.classList.add('d-none');
+                } else {
+                    sun.classList.add('d-none');
+                    moon.classList.remove('d-none');
+                }
+            }
+        }
     </script>
 
     @stack('scripts')
