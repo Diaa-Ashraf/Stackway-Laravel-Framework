@@ -2,7 +2,7 @@
     "name": "stackway/core",
     "description": "Stackway - Personal Laravel Framework with Dashboard, Module Generator & Clean Architecture",
     "type": "library",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Stackway Developer"
